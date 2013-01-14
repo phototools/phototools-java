@@ -1,6 +1,5 @@
-Bundle-Copyright: David Bosschaert (c) 2012-2013
 Bundle-License: http://opensource.org/licenses/Apache-2.0
-Bundle-Version: 0.4
+Bundle-Version: ${master-version}
 -buildpath: junit.osgi,\
 	osgi.core,\
 	phototools.api;version=latest,\

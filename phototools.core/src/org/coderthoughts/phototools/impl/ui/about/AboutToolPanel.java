@@ -27,6 +27,7 @@ import org.coderthoughts.phototools.api.AboutInfo;
 import org.coderthoughts.phototools.api.ToolPanel;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
@@ -107,7 +108,7 @@ public class AboutToolPanel implements ToolPanel {
         sb.append("Bundles in the system:\n");
         Map<Long, String> bundles = new TreeMap<Long, String>();
         for (Bundle b : bundleContext.getBundles()) {
-            bundles.put(b.getBundleId(), b.getSymbolicName() + " (" + getStatus(b) + ")");
+            bundles.put(b.getBundleId(), b.getSymbolicName() + " " + b.getHeaders().get(Constants.BUNDLE_VERSION)+ " (" + getStatus(b) + ")");
         }
 
         for (Long id : bundles.keySet()) {

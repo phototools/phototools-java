@@ -43,8 +43,8 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 import org.coderthoughts.phototools.api.PhotoIterable;
-import org.coderthoughts.phototools.util.UIUtils;
-import org.coderthoughts.phototools.util.WrappingFlowLayout;
+import org.coderthoughts.phototools.util.ui.UIUtils;
+import org.coderthoughts.phototools.util.ui.WrappingFlowLayout;
 import org.jdesktop.swingx.JXDatePicker;
 import org.osgi.framework.BundleContext;
 

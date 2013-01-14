@@ -132,7 +132,7 @@ public class DuplicateFinderTest extends TestCase {
                 Date d;
                 if (similarDates.contains(f.getName())) {
                     // Deliberately make the seconds different, the comparison should ignore those
-                    d = getDate(13, 2, 1971, 12, 30, counter++);
+                    d = getDate(13, 2, 1971, 12, 30, 45, counter++ * 10);
                 } else {
                     d = new Date(); // now
                 }
@@ -142,7 +142,7 @@ public class DuplicateFinderTest extends TestCase {
         };
     }
 
-    private Date getDate(int day, int month, int year, int hour, int min, int sec) {
+    private Date getDate(int day, int month, int year, int hour, int min, int sec, int millis) {
         // Note that month is 1-based (January = 1)
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.set(Calendar.DAY_OF_MONTH, day);
@@ -151,7 +151,7 @@ public class DuplicateFinderTest extends TestCase {
         c.set(Calendar.HOUR_OF_DAY, hour);
         c.set(Calendar.MINUTE, min);
         c.set(Calendar.SECOND, sec);
-        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.MILLISECOND, millis);
         return c.getTime();
     }
 }

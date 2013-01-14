@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.coderthoughts.phototools.util;
+package org.coderthoughts.phototools.util.ui;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import org.coderthoughts.phototools.api.PhotoIterable;
 import org.coderthoughts.phototools.api.PhotoMetadataProvider;
 import org.coderthoughts.phototools.api.PhotoMetadataProvider.Metadata;
+import org.coderthoughts.phototools.util.Streams;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 

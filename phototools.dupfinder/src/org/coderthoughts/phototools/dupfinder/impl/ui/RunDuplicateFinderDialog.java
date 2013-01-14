@@ -51,7 +51,7 @@ import org.coderthoughts.phototools.dupfinder.impl.DuplicateFinder;
 import org.coderthoughts.phototools.util.DirTreeIterable;
 import org.coderthoughts.phototools.util.FileTools;
 import org.coderthoughts.phototools.util.OSGiUtils;
-import org.coderthoughts.phototools.util.WrappingFlowLayout;
+import org.coderthoughts.phototools.util.ui.WrappingFlowLayout;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;

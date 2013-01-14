@@ -52,8 +52,8 @@ import org.coderthoughts.phototools.api.PhotoMetadataProvider;
 import org.coderthoughts.phototools.api.ToolPanel;
 import org.coderthoughts.phototools.util.DirectoryPhotoIterable;
 import org.coderthoughts.phototools.util.OSGiUtils;
-import org.coderthoughts.phototools.util.UIUtils;
-import org.coderthoughts.phototools.util.WrappingFlowLayout;
+import org.coderthoughts.phototools.util.ui.UIUtils;
+import org.coderthoughts.phototools.util.ui.WrappingFlowLayout;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 

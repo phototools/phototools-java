@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.coderthoughts.phototools.util;
+package org.coderthoughts.phototools.util.ui;
 
 import java.awt.Component;
 import java.awt.Container;

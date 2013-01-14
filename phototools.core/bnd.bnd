@@ -1,4 +1,4 @@
-Bundle-Version: 0.4
+Bundle-Version: ${master-version}
 Private-Package: org.coderthoughts.phototools.impl.*,\
 	com.adobe.xmp.*,\
 	com.drew.*,\
@@ -6,7 +6,8 @@ Private-Package: org.coderthoughts.phototools.impl.*,\
 	org.jdesktop.*
 Import-Package: sun.swing;resolution:=optional,\
     *
-Export-Package: org.coderthoughts.phototools.util
+Export-Package: org.coderthoughts.phototools.util,\
+	org.coderthoughts.phototools.util.ui
 -buildpath: phototools.api;version=latest,\
 	jars/JTattoo.jar;version=file,\
 	jars/metadata-extractor-2.6.2.jar;version=file,\
@@ -15,6 +16,5 @@ Export-Package: org.coderthoughts.phototools.util
 	osgi.core,\
 	junit.osgi,\
 	org.mockito.mockito-all
-Bundle-Copyright: David Bosschaert (c) 2012-2013
 Bundle-License: http://opensource.org/licenses/Apache-2.0
 Bundle-Activator: org.coderthoughts.phototools.impl.Activator
