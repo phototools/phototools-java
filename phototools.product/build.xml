@@ -20,4 +20,6 @@
             <fileset dir="generated"/>
         </delete>
     </target>
+    
+    <target name="junit"/>
 </project>
