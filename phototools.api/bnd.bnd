@@ -1,0 +1,5 @@
+Export-Package: org.coderthoughts.phototools.api
+Bundle-Version: 0.4
+Bundle-Copyright: David Bosschaert (c) 2012-2013
+Bundle-License: http://opensource.org/licenses/Apache-2.0
+-buildpath: junit.osgi

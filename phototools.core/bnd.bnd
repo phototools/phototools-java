@@ -1,0 +1,20 @@
+Bundle-Version: 0.4
+Private-Package: org.coderthoughts.phototools.impl.*,\
+	com.adobe.xmp.*,\
+	com.drew.*,\
+	com.jtattoo.*,\
+	org.jdesktop.*
+Import-Package: sun.swing;resolution:=optional,\
+    *
+Export-Package: org.coderthoughts.phototools.util
+-buildpath: phototools.api;version=latest,\
+	jars/JTattoo.jar;version=file,\
+	jars/metadata-extractor-2.6.2.jar;version=file,\
+	jars/swingx-all-1.6.4.jar;version=file,\
+	jars/xmpcore.jar;version=file,\
+	osgi.core,\
+	junit.osgi,\
+	org.mockito.mockito-all
+Bundle-Copyright: David Bosschaert (c) 2012-2013
+Bundle-License: http://opensource.org/licenses/Apache-2.0
+Bundle-Activator: org.coderthoughts.phototools.impl.Activator
