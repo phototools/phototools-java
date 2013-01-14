@@ -15,7 +15,6 @@ package org.coderthoughts.phototools.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -47,7 +46,7 @@ public class FileTools {
             String[] cmdarray = new String[] {
                     "sh", "-c", "LANG=C TZ=UTC ls -lTU \"" + f.getAbsolutePath() + "\""
             };
-            System.out.println("Executing process: " + Arrays.toString(cmdarray));
+            // System.out.println("Executing process: " + Arrays.toString(cmdarray));
             Process process = Runtime.getRuntime().exec(cmdarray);
             process.waitFor();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

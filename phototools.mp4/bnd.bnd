@@ -1,0 +1,13 @@
+Include-Resource: mp4parser/isoviewer-2.0-RC-18.jar
+Import-Package: javax.jnlp;resolution:=optional,\
+    *
+Private-Package: org.coderthoughts.phototools.mp4.impl
+Bundle-ClassPath: .,isoviewer-2.0-RC-18.jar
+-buildpath: phototools.api;version=latest,\
+    mp4parser/isoviewer-2.0-RC-18.jar;version=file,\
+	junit.osgi,\
+	osgi.core
+Bundle-Copyright: David Bosschaert (c) 2012-2013
+Bundle-License: http://opensource.org/licenses/Apache-2.0
+Bundle-Version: 0.4
+Bundle-Activator: org.coderthoughts.phototools.mp4.impl.Activator

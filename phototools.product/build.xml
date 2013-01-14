@@ -7,8 +7,8 @@
 
         <copy file="../phototools.api/generated/phototools.api.jar" toDir="generated/work/bundle"/>
         <copy file="../phototools.core/generated/phototools.core.jar" toDir="generated/work/bundle"/>
-        <!--
         <copy file="../phototools.mp4/generated/phototools.mp4.jar" toDir="generated/work/bundle"/>
+        <!--
         <copy file="../phototools.mtp/generated/phototools.mtp.jar" toDir="generated/work/bundle"/>
         -->
 
