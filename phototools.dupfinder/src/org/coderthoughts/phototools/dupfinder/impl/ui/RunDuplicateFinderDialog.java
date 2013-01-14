@@ -267,7 +267,11 @@ public class RunDuplicateFinderDialog extends JDialog {
         return panel;
     }
 
-    private int getScaledHeight(int widthInPixels, int heightInPixels, int actualWidth) {
+    private int getScaledHeight(Integer widthInPixels, Integer heightInPixels, int actualWidth) {
+        if (widthInPixels == null || heightInPixels == null)
+            // If we don't know the dimensions of the image make it square by returning the width of the container
+            return actualWidth;
+
         double factor = (double) actualWidth / (double) widthInPixels;
         return (int) (factor * heightInPixels);
     }

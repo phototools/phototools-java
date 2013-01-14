@@ -5,6 +5,6 @@ Bundle-Version: 0.4
 	osgi.core,\
 	phototools.api;version=latest,\
 	phototools.core;version=latest
+Bundle-Activator: org.coderthoughts.phototools.dupfinder.impl.Activator
 Private-Package: org.coderthoughts.phototools.dupfinder.impl.ui,\
 	org.coderthoughts.phototools.dupfinder.impl
-Bundle-Activator: org.coderthoughts.phototools.dupfinder.impl.Activator
