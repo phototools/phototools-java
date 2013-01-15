@@ -14,6 +14,7 @@ package org.coderthoughts.phototools.impl.ui;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.awt.SplashScreen;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -92,6 +93,10 @@ public class PhotoToolUI extends JDialog {
 	            tp.postLayout(this);
 	        }
 	    }
+
+        SplashScreen splash = SplashScreen.getSplashScreen();
+        if (splash != null)
+            splash.close();
 	}
 
     private void handleOSX(Image dockImage) {
