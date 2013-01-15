@@ -81,8 +81,13 @@ public class DuplicateFinderToolPanel implements ToolPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JPanel left = new JPanel();
-        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        JPanel left = new JPanel(new BorderLayout());
+        JPanel leftContents = new JPanel();
+        leftContents.setLayout(new BoxLayout(leftContents, BoxLayout.Y_AXIS));
+        left.add(leftContents, BorderLayout.NORTH); // add to BorderLayout.NORTH to keep contents compact
+        JScrollPane leftSP = new JScrollPane(left,
+                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         final JPanel right = new JPanel(new BorderLayout());
         right.add(new JLabel("Preview:"), BorderLayout.NORTH);
@@ -90,8 +95,8 @@ public class DuplicateFinderToolPanel implements ToolPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        left.add(new JLabel("Duplicate finder tries to find duplicate images in your collection."));
-        left.add(new JLabel("Select a root directory to start the process."));
+        leftContents.add(new JLabel("Duplicate finder tries to find duplicate images in your collection."));
+        leftContents.add(new JLabel("Select a root directory to start the process."));
 
         JPanel locationPNL = new JPanel(new FlowLayout(FlowLayout.LEADING));
         locationPNL.add(new JLabel("Location: "));
@@ -115,15 +120,17 @@ public class DuplicateFinderToolPanel implements ToolPanel {
         });
         locationPNL.add(selectBTN);
         locationPNL.setAlignmentX(Component.LEFT_ALIGNMENT);
-        left.add(locationPNL);
+        leftContents.add(locationPNL);
 
-        JPanel typesPNL = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        JPanel typesPNL = new JPanel();
+        typesPNL.setLayout(new BoxLayout(typesPNL, BoxLayout.Y_AXIS));
 
         typesPNL.setToolTipText("Select the file extensions to consider when checking " +
         		"for duplicates. Analysis on large movie files may be slow.");
         TitledBorder typesBorder = BorderFactory.createTitledBorder("File extensions");
         typesBorder.setTitlePosition(TitledBorder.TOP);
         typesPNL.setBorder(typesBorder);
+        typesPNL.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         final Map<String, JCheckBox> types = new TreeMap<String, JCheckBox>();
         for(ServiceReference ref : OSGiUtils.getSortedServiceReferences(bundleContext,
@@ -145,14 +152,18 @@ public class DuplicateFinderToolPanel implements ToolPanel {
         }
         extensionChecks = types.values();
         Collection<String> selected = parseExtensionPrefValue(getPreferenceValue(PREFERENCE_KEY_EXTENSIONS), types.keySet());
+        JPanel curTypesPNL = addTypesCheckboxPanel(typesPNL);
         for (JCheckBox cb : extensionChecks) {
+            if (curTypesPNL.getComponentCount() > 6) {
+                curTypesPNL = addTypesCheckboxPanel(typesPNL);
+            }
             cb.setSelected(selected.contains(cb.getText()));
-            typesPNL.add(cb);
+            curTypesPNL.add(cb);
         }
-        typesPNL.add(getAllOrNoneButton(types.values(), true));
-        typesPNL.add(getAllOrNoneButton(types.values(), false));
-        typesPNL.setAlignmentX(Component.LEFT_ALIGNMENT);
-        left.add(typesPNL);
+        curTypesPNL = addTypesPanel(typesPNL, FlowLayout.TRAILING);
+        curTypesPNL.add(getAllOrNoneButton(types.values(), true));
+        curTypesPNL.add(getAllOrNoneButton(types.values(), false));
+        leftContents.add(typesPNL);
 
         JPanel startPNL = new JPanel(new FlowLayout(FlowLayout.LEADING));
         startPNL.add(new JLabel("To start click ->"));
@@ -171,7 +182,7 @@ public class DuplicateFinderToolPanel implements ToolPanel {
         startPNL.add(startBTN);
         startPNL.setAlignmentX(Component.LEFT_ALIGNMENT);
         startPNL.setAlignmentY(Component.TOP_ALIGNMENT);
-        left.add(startPNL);
+        leftContents.add(startPNL);
 
         String storedLocation = getPreferenceValue(PREFERENCE_KEY_DIRECTORY);
         if (storedLocation != null) {
@@ -179,16 +190,22 @@ public class DuplicateFinderToolPanel implements ToolPanel {
             updateLocationAsync(right, storedLocation);
         }
 
-//        Dimension dim = new Dimension(940, 300);
-//        Box.Filler filler = new Box.Filler(dim, dim, dim);
-//        filler.setAlignmentX(Component.LEFT_ALIGNMENT);
-//        left.add(filler);
-
-        toolSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, rightSP);
+        toolSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftSP, rightSP);
         panel.add(toolSplitPane);
 
         thePanel = panel;
         return panel;
+    }
+
+    private JPanel addTypesCheckboxPanel(JPanel parent) {
+        return addTypesPanel(parent, FlowLayout.LEADING);
+    }
+
+    private JPanel addTypesPanel(JPanel parent, int alignment) {
+        JPanel curTypesPNL = new JPanel(new FlowLayout(alignment));
+        curTypesPNL.setAlignmentX(Component.LEFT_ALIGNMENT);
+        parent.add(curTypesPNL);
+        return curTypesPNL;
     }
 
     @Override
