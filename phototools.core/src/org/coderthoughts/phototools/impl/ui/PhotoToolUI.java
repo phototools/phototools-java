@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Properties;
 
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -38,7 +38,7 @@ import org.osgi.framework.ServiceReference;
 
 
 @SuppressWarnings("serial")
-public class PhotoToolUI extends JDialog {
+public class PhotoToolUI extends JFrame {
     private static final String PREFERENCE_FILENAME = "photocopy.storage";
     private static final String ICON_RESOURCE = "camera_openclipart_bluePal.png";
     private static final String PREFERENCE_KEY_SELECTED_TAB = "selectedTab";
@@ -46,13 +46,14 @@ public class PhotoToolUI extends JDialog {
     private final BundleContext bundleContext;
 
     public PhotoToolUI(BundleContext ctx) {
+        super("Photo Tools");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         bundleContext = ctx;
-		setTitle("Photo Tools");
 		URL iconRes = getClass().getResource(ICON_RESOURCE);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Image image = toolkit.createImage(iconRes);
-//		setIconImage(image);
-//		setIconImage(new ImageIcon(iconRes).getImage());
+		setIconImage(image);
 		handleOSX(image);
 
 		addWindowListener(new WindowAdapter() {

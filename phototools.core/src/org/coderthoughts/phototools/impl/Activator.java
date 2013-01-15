@@ -46,7 +46,6 @@ public class Activator implements BundleActivator {
             @Override
             public void run() {
                 PhotoToolUI ui = new PhotoToolUI(context);
-                ui.setModal(true);
                 ui.setVisible(true);
             }
         });
