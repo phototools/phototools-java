@@ -14,7 +14,6 @@ package org.coderthoughts.phototools.impl.ui;
 
 import java.awt.Component;
 import java.awt.Image;
-import java.awt.SplashScreen;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -22,11 +21,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.Properties;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -34,6 +37,7 @@ import javax.swing.event.ChangeListener;
 import org.coderthoughts.phototools.api.ToolPanel;
 import org.coderthoughts.phototools.util.OSGiUtils;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
 
 
@@ -95,12 +99,12 @@ public class PhotoToolUI extends JFrame {
 	        }
 	    }
 
-        SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash != null)
-            splash.close();
+//        SplashScreen splash = SplashScreen.getSplashScreen();
+//        if (splash != null)
+//            splash.close();
 	}
 
-    private void handleOSX(Image dockImage) {
+    private void handleOSX(final Image dockImage) {
         ClassLoader sysCL = ClassLoader.getSystemClassLoader();
         try {
             Class<?> cls = sysCL.loadClass("com.apple.eawt.Application");
@@ -109,11 +113,27 @@ public class PhotoToolUI extends JFrame {
             Method setDockIconImageMethod = cls.getDeclaredMethod("setDockIconImage", Image.class);
             setDockIconImageMethod.invoke(appObj, dockImage);
 
+            Class<?> ahCls = sysCL.loadClass("com.apple.eawt.AboutHandler");
+            Method setAboutHandlerMethod = cls.getDeclaredMethod("setAboutHandler", ahCls);
+
+            Object aboutHandler = Proxy.newProxyInstance(sysCL, new Class[] {ahCls}, new InvocationHandler() {
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    JOptionPane.showMessageDialog(PhotoToolUI.this, "Photo Tools " + bundleContext.getBundle().getHeaders().get(Constants.BUNDLE_VERSION) +
+                            " (c) contributors at http://github.com/phototools.\nFor more information see the about panel in the application.", "About Photo Tools",
+                            JOptionPane.INFORMATION_MESSAGE, new ImageIcon(getClass().getResource("camera_icon_openclipart_bluePal.png")));
+                    return null;
+                }
+            });
+
+            setAboutHandlerMethod.invoke(appObj, new Object[] {aboutHandler});
+
             // This can be used to set the badge, can be useful later.
             // Method setDockIconBadgeMethod = cls.getDeclaredMethod("setDockIconBadge", String.class);
             // setDockIconBadgeMethod.invoke(appObj, "42");
         } catch (Throwable th) {
             // not OSX, ignore
+            th.printStackTrace();
         }
     }
 
