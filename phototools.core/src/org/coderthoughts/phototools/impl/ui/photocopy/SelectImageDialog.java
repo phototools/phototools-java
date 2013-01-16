@@ -51,7 +51,6 @@ import org.osgi.framework.BundleContext;
 @SuppressWarnings("serial")
 public class SelectImageDialog extends JDialog {
     private final BundleContext bundleContext;
-    private boolean cancelled = false;
     private Collection<String> selection;
     private final PhotoIterable photoIterable;
     private final JPanel imagePanel;
@@ -61,6 +60,7 @@ public class SelectImageDialog extends JDialog {
     private final JXDatePicker toDP;
     private volatile int curIteration = 0;
     private boolean imagesLoaded;
+    private volatile boolean cancelled = true; // cancelled by default unless we hit 'OK'
 
     private SelectImageDialog(Window parentWindow, BundleContext ctx, PhotoIterable sourceIterable, Date orgFromDate, Date orgToDate, Collection<String> initial) {
         super(parentWindow);
@@ -117,6 +117,7 @@ public class SelectImageDialog extends JDialog {
         okBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                cancelled = false;
                 curIteration++;
                 setVisible(false);
             }
@@ -127,7 +128,6 @@ public class SelectImageDialog extends JDialog {
         cancelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cancelled = true;
                 curIteration++;
                 setVisible(false);
             }
@@ -155,7 +155,7 @@ public class SelectImageDialog extends JDialog {
                 if (t != lastTime) {
                     lastTime = t;
                     if (imagesLoaded)
-                        selection = getSelectedImages();
+                        selection = getSelectedImages(SelectImageDialog.this);
                     loadImagesAsync();
                 }
             }
@@ -172,14 +172,14 @@ public class SelectImageDialog extends JDialog {
         return dp;
     }
 
-    private Collection<String> getSelectedImages() {
+    private Collection<String> getSelectedImages(Window parentWindow) {
         Collection<String> l = new HashSet<String>(checkBoxes.size());
         synchronized(checkBoxes) {
             for (JCheckBox cb : checkBoxes) {
                 if (cb.isSelected()) {
                     String name = cb.getText();
                     if (l.contains(name)) {
-                        JOptionPane.showMessageDialog(this,
+                        JOptionPane.showMessageDialog(parentWindow,
                                 "Warning: the selected set of images contains an image with the name '" + name + "' more than once. " +
                                 "Only one resouce with this name will be processed.", "Multiple images with the same name", JOptionPane.WARNING_MESSAGE);
                     } else {
@@ -314,7 +314,7 @@ public class SelectImageDialog extends JDialog {
         if (!dialog.cancelled) {
             parentFromDP.setDate(dialog.fromDP.getDate());
             parentToDP.setDate(dialog.toDP.getDate());
-            return dialog.getSelectedImages();
+            return dialog.getSelectedImages(parentWindow);
         } else {
             return null;
         }
