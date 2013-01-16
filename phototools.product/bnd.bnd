@@ -5,11 +5,8 @@
 	osgi.identity;filter:='(osgi.identity=phototools.core)',\
 	osgi.identity;filter:='(osgi.identity=phototools.dupfinder)',\
 	osgi.identity;filter:='(osgi.identity=phototools.mp4)'
--resolve: auto
--runbundles: org.apache.felix.gogo.command;version='[0.12.0,0.12.1)',\
-	org.apache.felix.gogo.runtime;version='[0.10.0,0.10.1)',\
-	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
-	phototools.api;version=latest,\
+-runvm: -Xmx768m
+-runbundles: phototools.api;version=latest,\
 	phototools.core;version=latest,\
 	phototools.dupfinder;version=latest,\
 	phototools.mp4;version=latest
