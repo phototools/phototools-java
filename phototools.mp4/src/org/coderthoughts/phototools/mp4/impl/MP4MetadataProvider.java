@@ -66,7 +66,7 @@ public class MP4MetadataProvider implements PhotoMetadataProvider {
 
     private File getPreviewFile(Track track) throws IOException {
         for (ByteBuffer sample : track.getSamples()) {
-            File tempFile = File.createTempFile("Sample", ".jpg");
+            File tempFile = File.createTempFile("Preview", ".jpg");
             FileChannel fc = null;
             try {
                 fc = new FileOutputStream(tempFile).getChannel();
