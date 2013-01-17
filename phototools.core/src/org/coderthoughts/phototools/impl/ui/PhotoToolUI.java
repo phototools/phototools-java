@@ -89,7 +89,8 @@ public class PhotoToolUI extends JFrame {
             }
         }
 
-        pack();
+        // pack();
+        setSize(950, 500);
         setLocationByPlatform(true);
 
         for (ServiceReference ref : refs) {
@@ -98,21 +99,20 @@ public class PhotoToolUI extends JFrame {
 	            tp.postLayout(this);
 	        }
 	    }
-
-//        SplashScreen splash = SplashScreen.getSplashScreen();
-//        if (splash != null)
-//            splash.close();
 	}
 
+    // This method sets up some non-essential OSX-specific stuff.
     private void handleOSX(final Image dockImage) {
         ClassLoader sysCL = ClassLoader.getSystemClassLoader();
         try {
+            // Set up the application dock image
             Class<?> cls = sysCL.loadClass("com.apple.eawt.Application");
             Method getApplicationMethod = cls.getDeclaredMethod("getApplication");
             Object appObj = getApplicationMethod.invoke(null);
             Method setDockIconImageMethod = cls.getDeclaredMethod("setDockIconImage", Image.class);
             setDockIconImageMethod.invoke(appObj, dockImage);
 
+            // Make the about application menu do something sensible.
             Class<?> ahCls = sysCL.loadClass("com.apple.eawt.AboutHandler");
             Method setAboutHandlerMethod = cls.getDeclaredMethod("setAboutHandler", ahCls);
 
@@ -133,7 +133,6 @@ public class PhotoToolUI extends JFrame {
             // setDockIconBadgeMethod.invoke(appObj, "42");
         } catch (Throwable th) {
             // not OSX, ignore
-            th.printStackTrace();
         }
     }
 

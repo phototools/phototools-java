@@ -14,7 +14,6 @@ package org.coderthoughts.phototools.impl.ui.photocopy;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -36,7 +35,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -112,19 +110,13 @@ public class PhotoCopyToolPanel implements ToolPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JPanel left = new JPanel();
-        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        left.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel left = new JPanel(new BorderLayout());
+        JPanel leftContents = new JPanel();
+        leftContents.setLayout(new BoxLayout(leftContents, BoxLayout.Y_AXIS));
+        left.add(leftContents, BorderLayout.NORTH); // add to BorderLayout.NORTH to keep contents compact
 
-        JPanel sourcePanel = addSelectionPanel(left);
-        JPanel targetPanel = addSelectionPanel(left);
-        Dimension dim = new Dimension(940, 300);
-//        Dimension min = new Dimension(500, 500);
-//        Dimension pref = new Dimension(600, 600);
-//        Dimension max = new Dimension(700, 700);
-        Box.Filler filler = new Box.Filler(dim, dim, dim);
-        filler.setAlignmentX(Component.LEFT_ALIGNMENT);
-        left.add(filler);
+        JPanel sourcePanel = addSelectionPanel(leftContents);
+        JPanel targetPanel = addSelectionPanel(leftContents);
 
         sourceImagePNL = new JPanel();
         JComponent sourcePreviewPane = getImagePreviewPanel(sourceImagePNL, "Source:");
@@ -174,7 +166,8 @@ public class PhotoCopyToolPanel implements ToolPanel {
 
     @Override
     public void postLayout(Window parentWindow) {
-        previewSplitPane.setDividerLocation((int) (thePanel.getHeight() * 0.55));
+        // previewSplitPane.setDividerLocation((int) (thePanel.getHeight() * 0.55));
+        previewSplitPane.setDividerLocation(250);
         toolSplitPane.setDividerLocation((int) (thePanel.getWidth() * 0.6));
     }
 
