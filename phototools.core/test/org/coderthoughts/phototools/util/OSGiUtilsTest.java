@@ -18,7 +18,39 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.mockito.Mockito;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
+import org.osgi.framework.ServiceReference;
+
 public class OSGiUtilsTest extends TestCase {
+    public void testGetReferences() {
+        BundleContext ctx = Mockito.mock(BundleContext.class);
+
+        ServiceReference[] refs = OSGiUtils.getSortedServiceReferences(ctx, "org.foo.Blah", "(x=y)");
+        assertEquals(0, refs.length);
+    }
+
+    public void testGetReferences2() throws Exception {
+        ServiceReference sr1 = mockServiceReference(-71);
+        ServiceReference sr2 = mockServiceReference(42);
+        ServiceReference sr3 = Mockito.mock(ServiceReference.class);;
+
+        BundleContext ctx = Mockito.mock(BundleContext.class);
+        Mockito.when(ctx.getServiceReferences("org.foo.Blah", "(x=y)")).thenReturn(
+                new ServiceReference[] {sr1, sr2, sr3});
+
+        ServiceReference[] expected = new ServiceReference[] {sr2, sr3, sr1};
+        ServiceReference[] actual = OSGiUtils.getSortedServiceReferences(ctx, "org.foo.Blah", "(x=y)");
+        assertTrue(Arrays.equals(expected, actual));
+    }
+
+    private ServiceReference mockServiceReference(Integer ranking) {
+        ServiceReference sr1 = Mockito.mock(ServiceReference.class);
+        Mockito.when(sr1.getProperty(Constants.SERVICE_RANKING)).thenReturn(ranking);
+        return sr1;
+    }
+
     public void testStringPlusProperty() {
         assertEquals(0, OSGiUtils.getStringPlusProperty(null).size());
 
