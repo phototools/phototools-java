@@ -51,7 +51,7 @@ import org.coderthoughts.phototools.api.PhotoIterable.Entry;
 import org.coderthoughts.phototools.api.PhotoMetadataProvider;
 import org.coderthoughts.phototools.api.ToolPanel;
 import org.coderthoughts.phototools.util.DirectoryPhotoIterable;
-import org.coderthoughts.phototools.util.OSGiUtils;
+import org.coderthoughts.phototools.util.OSGiTools;
 import org.coderthoughts.phototools.util.ui.UIUtils;
 import org.coderthoughts.phototools.util.ui.WrappingFlowLayout;
 import org.osgi.framework.BundleContext;
@@ -133,9 +133,9 @@ public class DuplicateFinderToolPanel implements ToolPanel {
         typesPNL.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         final Map<String, JCheckBox> types = new TreeMap<String, JCheckBox>();
-        for(ServiceReference ref : OSGiUtils.getSortedServiceReferences(bundleContext,
+        for(ServiceReference ref : OSGiTools.getSortedServiceReferences(bundleContext,
                 PhotoMetadataProvider.class.getName(), null)) {
-            for (String ext : OSGiUtils.getStringPlusProperty(ref.getProperty("format"))) {
+            for (String ext : OSGiTools.getStringPlusProperty(ref.getProperty("format"))) {
                 final JCheckBox cb = new JCheckBox(ext);
                 cb.addChangeListener(new ChangeListener() {
                     boolean savedSelectionState = false;

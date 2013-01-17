@@ -27,7 +27,7 @@ public class OSGiUtilsTest extends TestCase {
     public void testGetReferences() {
         BundleContext ctx = Mockito.mock(BundleContext.class);
 
-        ServiceReference[] refs = OSGiUtils.getSortedServiceReferences(ctx, "org.foo.Blah", "(x=y)");
+        ServiceReference[] refs = OSGiTools.getSortedServiceReferences(ctx, "org.foo.Blah", "(x=y)");
         assertEquals(0, refs.length);
     }
 
@@ -41,7 +41,7 @@ public class OSGiUtilsTest extends TestCase {
                 new ServiceReference[] {sr1, sr2, sr3});
 
         ServiceReference[] expected = new ServiceReference[] {sr2, sr3, sr1};
-        ServiceReference[] actual = OSGiUtils.getSortedServiceReferences(ctx, "org.foo.Blah", "(x=y)");
+        ServiceReference[] actual = OSGiTools.getSortedServiceReferences(ctx, "org.foo.Blah", "(x=y)");
         assertTrue(Arrays.equals(expected, actual));
     }
 
@@ -52,15 +52,15 @@ public class OSGiUtilsTest extends TestCase {
     }
 
     public void testStringPlusProperty() {
-        assertEquals(0, OSGiUtils.getStringPlusProperty(null).size());
+        assertEquals(0, OSGiTools.getStringPlusProperty(null).size());
 
         List<String> l = Arrays.asList("a", "b", "c");
-        assertEquals(l, OSGiUtils.getStringPlusProperty(l));
+        assertEquals(l, OSGiTools.getStringPlusProperty(l));
 
         String[] a = new String[] {"a", "b", "c"};
-        assertEquals(l, OSGiUtils.getStringPlusProperty(a));
+        assertEquals(l, OSGiTools.getStringPlusProperty(a));
 
-        Collection<String> c = OSGiUtils.getStringPlusProperty("a b c");
+        Collection<String> c = OSGiTools.getStringPlusProperty("a b c");
         assertEquals(1, c.size());
         assertEquals("a b c", c.iterator().next());
     }

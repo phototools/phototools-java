@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Streams {
-    private Streams() {}
+public class StreamTools {
+    private StreamTools() {}
 
     public static void pump(InputStream is, OutputStream os) throws IOException {
         pump(is, os, 16384);

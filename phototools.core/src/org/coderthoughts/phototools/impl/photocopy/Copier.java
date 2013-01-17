@@ -25,7 +25,7 @@ import java.util.Date;
 import org.coderthoughts.phototools.api.PhotoIterable;
 import org.coderthoughts.phototools.api.PhotoIterable.Entry;
 import org.coderthoughts.phototools.api.PhotoMetadataProvider;
-import org.coderthoughts.phototools.util.Streams;
+import org.coderthoughts.phototools.util.StreamTools;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -70,7 +70,7 @@ public class Copier {
             OutputStream os = null;
             File tempFile = File.createTempFile("PhotoCopyTemp", extension);
             try {
-                Streams.pump(entry.getInputStream(), new FileOutputStream(tempFile), 1024 * 1024);
+                StreamTools.pump(entry.getInputStream(), new FileOutputStream(tempFile), 1024 * 1024);
                 System.out.print(".");
 
                 Date timestamp = null;
@@ -102,7 +102,7 @@ public class Copier {
 
                 is = new FileInputStream(tempFile);
                 os = new FileOutputStream(targetFile);
-                Streams.pump(is, os, 1024 * 1024);
+                StreamTools.pump(is, os, 1024 * 1024);
                 System.out.println(" Done.");
             } catch (IOException ioe) {
                 System.err.println("Problem copying " + entry.getName());

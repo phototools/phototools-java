@@ -35,7 +35,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.coderthoughts.phototools.api.ToolPanel;
-import org.coderthoughts.phototools.util.OSGiUtils;
+import org.coderthoughts.phototools.util.OSGiTools;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
@@ -78,7 +78,7 @@ public class PhotoToolUI extends JFrame {
 		tabbedPane.setOpaque(true);
 
 		String selectedTab = getPreferenceValue(PREFERENCE_KEY_SELECTED_TAB);
-		ServiceReference[] refs = OSGiUtils.getSortedServiceReferences(bundleContext, ToolPanel.class.getName(), null);
+		ServiceReference[] refs = OSGiTools.getSortedServiceReferences(bundleContext, ToolPanel.class.getName(), null);
         for (ServiceReference ref : refs) {
             ToolPanel tp = (ToolPanel) bundleContext.getService(ref);
             if (tp != null) {

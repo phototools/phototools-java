@@ -50,7 +50,7 @@ import org.coderthoughts.phototools.api.PhotoMetadataProvider.Metadata;
 import org.coderthoughts.phototools.dupfinder.impl.DuplicateFinder;
 import org.coderthoughts.phototools.util.DirTreeIterable;
 import org.coderthoughts.phototools.util.FileTools;
-import org.coderthoughts.phototools.util.OSGiUtils;
+import org.coderthoughts.phototools.util.OSGiTools;
 import org.coderthoughts.phototools.util.ui.WrappingFlowLayout;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
@@ -345,7 +345,7 @@ public class RunDuplicateFinderDialog extends JDialog {
         Map<String, PhotoMetadataProvider> pmps = new HashMap<String, PhotoMetadataProvider>();
         for (ServiceReference ref : refs) {
             PhotoMetadataProvider pmp = (PhotoMetadataProvider) ctx.getService(ref);
-            for (String ext : OSGiUtils.getStringPlusProperty(ref.getProperty("format"))) {
+            for (String ext : OSGiTools.getStringPlusProperty(ref.getProperty("format"))) {
                 if (extensions.contains(ext))
                     pmps.put(ext, pmp);
             }

@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import org.coderthoughts.phototools.api.PhotoIterable;
 import org.coderthoughts.phototools.api.PhotoMetadataProvider;
 import org.coderthoughts.phototools.api.PhotoMetadataProvider.Metadata;
-import org.coderthoughts.phototools.util.Streams;
+import org.coderthoughts.phototools.util.StreamTools;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
@@ -51,7 +51,7 @@ public class UIUtils {
             extension = extension.toLowerCase();
 
             tempFile = File.createTempFile("PhotoCopy", extension);
-            Streams.pump(entry.getInputStream(), new FileOutputStream(tempFile));
+            StreamTools.pump(entry.getInputStream(), new FileOutputStream(tempFile));
 
             Date date = null;
             File previewFile = null;

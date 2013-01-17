@@ -32,7 +32,7 @@ import org.coderthoughts.phototools.api.PhotoIterable;
 import org.coderthoughts.phototools.api.PhotoIterable.Entry;
 import org.coderthoughts.phototools.util.DirectoryPhotoIterable;
 import org.coderthoughts.phototools.util.FileTools;
-import org.coderthoughts.phototools.util.Streams;
+import org.coderthoughts.phototools.util.StreamTools;
 
 public class DirectoryPhotoIterableTest extends TestCase {
     public void testFilePhotoIterable() throws Exception {
@@ -136,7 +136,7 @@ public class DirectoryPhotoIterableTest extends TestCase {
     private static byte [] suckStream(InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            Streams.pump(is, baos);
+            StreamTools.pump(is, baos);
             return baos.toByteArray();
         } finally {
             is.close();

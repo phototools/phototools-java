@@ -60,7 +60,7 @@ import org.coderthoughts.phototools.api.ToolPanel;
 import org.coderthoughts.phototools.impl.photocopy.Copier;
 import org.coderthoughts.phototools.util.DirTreeIterable;
 import org.coderthoughts.phototools.util.DirectoryPhotoIterable;
-import org.coderthoughts.phototools.util.OSGiUtils;
+import org.coderthoughts.phototools.util.OSGiTools;
 import org.coderthoughts.phototools.util.ui.UIUtils;
 import org.coderthoughts.phototools.util.ui.WrappingFlowLayout;
 import org.jdesktop.swingx.JXDatePicker;
@@ -203,7 +203,7 @@ public class PhotoCopyToolPanel implements ToolPanel {
         final Map<JRadioButton, PhotoSource> sources = new HashMap<JRadioButton, PhotoSource>();
         ButtonGroup group = new ButtonGroup();
         boolean first = true;
-        for (ServiceReference ref : OSGiUtils.getSortedServiceReferences(bundleContext, PhotoSource.class.getName(), null)) {
+        for (ServiceReference ref : OSGiTools.getSortedServiceReferences(bundleContext, PhotoSource.class.getName(), null)) {
             PhotoSource ps = (PhotoSource) bundleContext.getService(ref);
             JRadioButton rb = new JRadioButton(ps.getLabel());
             if (first) {
@@ -587,7 +587,7 @@ public class PhotoCopyToolPanel implements ToolPanel {
 
         List<String> formats = new ArrayList<String>();
         for (ServiceReference ref : refs) {
-            formats.addAll(OSGiUtils.getStringPlusProperty(ref.getProperty("format")));
+            formats.addAll(OSGiTools.getStringPlusProperty(ref.getProperty("format")));
         }
         return formats.toArray(new String[] {});
     }

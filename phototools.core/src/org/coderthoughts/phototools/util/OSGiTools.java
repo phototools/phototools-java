@@ -22,8 +22,8 @@ import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
-public class OSGiUtils {
-    private OSGiUtils() {}
+public class OSGiTools {
+    private OSGiTools() {}
 
     public static ServiceReference[] getSortedServiceReferences(BundleContext ctx, String className, String filter) {
         ServiceReference[] refs = null;
