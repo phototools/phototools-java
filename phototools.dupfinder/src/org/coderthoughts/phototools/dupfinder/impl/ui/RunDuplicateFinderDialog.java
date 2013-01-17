@@ -53,7 +53,6 @@ import org.coderthoughts.phototools.util.FileTools;
 import org.coderthoughts.phototools.util.OSGiTools;
 import org.coderthoughts.phototools.util.ui.WrappingFlowLayout;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
 @SuppressWarnings("serial")
@@ -333,13 +332,8 @@ public class RunDuplicateFinderDialog extends JDialog {
     }
 
     public static void run(Window parentWindow, BundleContext ctx, String root, Collection<String> extensions) {
-        ServiceReference[] refs = null;
-        try {
-            refs = ctx.getServiceReferences(PhotoMetadataProvider.class.getName(), null);
-        } catch (InvalidSyntaxException e) {
-            // No filter give, will not happen
-        }
-        if (refs == null)
+        ServiceReference[] refs = OSGiTools.getSortedServiceReferences(ctx, PhotoMetadataProvider.class.getName(), null);
+        if (refs.length == 0)
             throw new IllegalStateException("No PhotoMetadataProvider instances found in Service Registry.");
 
         Map<String, PhotoMetadataProvider> pmps = new HashMap<String, PhotoMetadataProvider>();

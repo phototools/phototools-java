@@ -23,7 +23,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
 
-public class OSGiUtilsTest extends TestCase {
+public class OSGiToolsTest extends TestCase {
     public void testGetReferences() {
         BundleContext ctx = Mockito.mock(BundleContext.class);
 
