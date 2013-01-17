@@ -55,11 +55,13 @@ public class SelectImageDialog extends JDialog {
     private final PhotoIterable photoIterable;
     private final JPanel imagePanel;
     private final List<JCheckBox> checkBoxes = Collections.synchronizedList(new ArrayList<JCheckBox>());
-    public JCheckBox lastSelected;
     private final JXDatePicker fromDP;
     private final JXDatePicker toDP;
+    private JCheckBox lastSelected;
+
+    // The following member communicate information across threads
     private volatile int curIteration = 0;
-    private boolean imagesLoaded;
+    private volatile boolean imagesLoaded = false;
     private volatile boolean cancelled = true; // cancelled by default unless we hit 'OK'
 
     private SelectImageDialog(Window parentWindow, BundleContext ctx, PhotoIterable sourceIterable, Date orgFromDate, Date orgToDate, Collection<String> initial) {
@@ -71,6 +73,8 @@ public class SelectImageDialog extends JDialog {
 
         JPanel dialogPanel = new JPanel(new BorderLayout());
         setContentPane(dialogPanel);
+
+        dialogPanel.add(new JLabel("Select images to copy. Hint: to select a range SHIFT-click an image."), BorderLayout.NORTH);
 
         imagePanel = new JPanel(new WrappingFlowLayout(FlowLayout.LEADING));
         JScrollPane scrollPane = new JScrollPane(imagePanel,

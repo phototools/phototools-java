@@ -424,7 +424,7 @@ public class PhotoCopyToolPanel implements ToolPanel {
         return locationTF;
     }
 
-    protected String possiblyFixTargetLocation(String path) {
+    private String possiblyFixTargetLocation(String path) {
         return possiblyFixTargetLocation(new File(path)).getAbsolutePath();
     }
 
