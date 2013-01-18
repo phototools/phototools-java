@@ -92,7 +92,7 @@ is found your tool panel will automatically appear in the application.
 An example tool panel contributed in this way is [Duplicate Finder Tool Panel](http://github.com/phototools/phototools/blob/master/phototools.dupfinder/src/org/coderthoughts/phototools/dupfinder/impl/ui/DuplicateFinderToolPanel.java).
 
 ### Supported Photo and Video formats
-To support additional photo and video formats register an [org.coderthoughts.phototools.api.PhotoMetadataProvider](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/PhotoMetadataProvider.java).
+To support additional photo and video formats register an [`org.coderthoughts.phototools.api.PhotoMetadataProvider`](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/PhotoMetadataProvider.java).
 
 The service needs to be registered with the service registration property `format` which should list one or more extensions
 (in lowercase) that are supported by this `PhotoMetadataProvider`. For example:
@@ -100,8 +100,23 @@ The service needs to be registered with the service registration property `forma
     Dictionary props = new Hashtable();
     props.put("format", new String [] {".jpeg", ".jpg"});
     bundleContext.registerService(PhotoMetadataProvider.class.getName(), new MyJPEGProvider(), props);
- 
+
+An example video plugin is the [MP4 Metadata Provider](http://github.com/phototools/phototools/blob/master/phototools.mp4/src/org/coderthoughts/phototools/mp4/impl/MP4MetadataProvider.java).
 
 ### Photo Sources
+To support additional photo sources (in addition to the plain Directory source) provider the 
+[org.coderthoughts.phototools.api.PhotoSource](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/PhotoSource.java) service.
+
+Once registered the photo source will appear as an option in the PhotoCopy panel.
+
+An example photo source plugin is the [MTP Photo Source](http://github.com/phototools/phototools-mtp/blob/master/phototools.mtp/src/org/coderthoughts/phototools/mtp/impl/MTPPhotoSource.java).
+
+### About Panel
+If your plugin relies on another library and you want to make a credit note appear on the About dialog, implement the
+[`org.coderthoughts.phototools.api.AboutInfo`](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/AboutInfo.java) service.
+
+### Building the source
+The PhotoTools project is developed and built as a [bndtools](http://bndtools.org/) project built using [Apache ant](http://ant.apache.org/).
+If you want a nice IDE, use [Eclipse](http://eclipse.org/) with bndtools installed and import the root directory of the source as Eclipse projects.
 
 More information about the architecture can be found here: http://coderthoughts.blogspot.com/2013/01/a-mobile-device-photo-organizer-using.html
