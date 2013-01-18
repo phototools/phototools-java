@@ -18,7 +18,7 @@ from all your devices.
 Getting Started
 ---------------
 
-Start by downloading the application. The main application build can be downloaded from here: @@@@
+Start by downloading the application. The main application build can be [downloaded from here](http://code.google.com/p/coderthoughts/downloads/list).
 
     unzip PhotoTools_0.5.zip
     sh PhotoTools.sh (on unix or Mac OSX)
@@ -26,7 +26,19 @@ Start by downloading the application. The main application build can be download
     
 This will launch the main Application Window:
 ![Main Window](https://raw.github.com/phototools/phototools/master/docs/images/PhotoTools.png "Main Window")
+A number of tabs may be visible. The Photo Copy and About tabs will always be there.
 
+
+Photo Copy
+----------
+The Photo Copy tab allows you to copy photos from a device or storage medium to your shared photo collection.
+
+### Sources
+
+
+
+Duplicate Finder
+----------------
 
 Developer Information
 ---------------------
