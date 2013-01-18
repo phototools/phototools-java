@@ -448,6 +448,12 @@ public class PhotoCopyToolPanel implements ToolPanel {
     }
 
     private boolean followsTargetStructure(File dir) {
+        if (dir == null)
+            // We could return a NPE here, but in this case false also works
+            // This situation can arise when the user has selected a directory
+            // that is close to the root and may not have a (grand)parent.
+            return false;
+
         File[] files = dir.listFiles();
         if (files == null)
             return false;
