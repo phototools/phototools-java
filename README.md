@@ -61,6 +61,24 @@ The copy button will perform the copy operation. Note the following about the co
 
 Duplicate Finder
 ----------------
+This tool can be used to find and remove duplicates from your photo collection. It works by pointing at a root location
+of your photo collection. It will then search all photos (and videos, if specified) in your collections and will try to 
+find duplicates.
+
+The duplicate finder will try to find duplicates of a photo based on the metadata embedded in the photo. So even 
+photos that have been rotated or resized will be found.
+
+![Duplicate Finder](https://raw.github.com/phototools/phototools/master/docs/images/DupFinder.png "Duplicate Finder")
+
+* Start by selecting the root location. 
+* Select the file extensions to consider. Only file extensions for known photo and video formats are listed. Note that processing some large video files could be very time consuming.
+* Hit 'Start'
+
+Duplicate finder will crawl your photo collection to look for duplicates. When it finds them a window showing potential 
+duplicates will open from where you can see them and optionally delete some of them.
+
+![Duplicate Finder](https://raw.github.com/phototools/phototools/master/docs/images/DupFinder2.png "Duplicate Finder")
+
 
 Developer Information
 ---------------------
