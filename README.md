@@ -98,8 +98,8 @@ The service needs to be registered with the service registration property `forma
 (in lowercase) that are supported by this `PhotoMetadataProvider`. For example:
 
     Dictionary props = new Hashtable();
-    props.put("format", new String [] {".jpeg", ".jpg"});
-    bundleContext.registerService(PhotoMetadataProvider.class.getName(), new MyJPEGProvider(), props);
+    props.put("format", new String [] {".mp4", ".m4v"});
+    bundleContext.registerService(PhotoMetadataProvider.class.getName(), new MyMP4Provider(), props);
 
 An example video plugin is the [MP4 Metadata Provider](http://github.com/phototools/phototools/blob/master/phototools.mp4/src/org/coderthoughts/phototools/mp4/impl/MP4MetadataProvider.java).
 
