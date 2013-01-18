@@ -82,6 +82,17 @@ duplicates will open from where you can see them and optionally delete some of t
 
 Developer Information
 ---------------------
+PhotoTools is developed as an OSGi application and can be extended by adding further bundles that provide OSGi Services.
+The following functionality can be extended:
 
+### Tool panels in the application
+To add further tool panels to the application register an [`org.coderthoughts.phototools.api.ToolPanel`](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/ToolPanel.java) service. If the service
+is found your tool panel will automatically appear in the application.
+
+An example tool panel contributed in this way is [Duplicate Finder Tool Panel](http://github.com/phototools/phototools/blob/master/phototools.dupfinder/src/org/coderthoughts/phototools/dupfinder/impl/ui/DuplicateFinderToolPanel.java).
+
+### Supported Photo and Video formats
+
+### Photo Sources
 
 More information about the architecture can be found here: http://coderthoughts.blogspot.com/2013/01/a-mobile-device-photo-organizer-using.html
