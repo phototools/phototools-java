@@ -25,6 +25,7 @@ Start by downloading the application. The main application build can be download
     PhotoTools.cmd (on Windows)
     
 This will launch the main Application Window:
+![Main Window](https://raw.github.com/phototools/phototools/master/docs/images/PhotoTools.png "Main Window")
 
 
 Developer Information
