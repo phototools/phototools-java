@@ -104,8 +104,8 @@ The service needs to be registered with the service registration property `forma
 An example video plugin is the [MP4 Metadata Provider](http://github.com/phototools/phototools/blob/master/phototools.mp4/src/org/coderthoughts/phototools/mp4/impl/MP4MetadataProvider.java).
 
 ### Photo Sources
-To support additional photo sources (in addition to the plain Directory source) provider the 
-[org.coderthoughts.phototools.api.PhotoSource](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/PhotoSource.java) service.
+To support additional photo sources (in addition to the plain Directory source) provide the 
+[`org.coderthoughts.phototools.api.PhotoSource`](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/PhotoSource.java) service.
 
 Once registered the photo source will appear as an option in the PhotoCopy panel.
 
