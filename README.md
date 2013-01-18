@@ -2,7 +2,7 @@ PhotoTools
 ==========
 
 An application to Manage Photo collections. This includes:
-* Reading photos from Mobile Devices to a common, directory structure
+* Reading photos from Mobile Devices to a common directory structure: the photo collection on your computer or network drive.
 * Finding and removing duplicates from your photo collection
 * PhotoTools is extensible (through OSGi) so additional functionality can be added via plugins
 
