@@ -92,6 +92,15 @@ is found your tool panel will automatically appear in the application.
 An example tool panel contributed in this way is [Duplicate Finder Tool Panel](http://github.com/phototools/phototools/blob/master/phototools.dupfinder/src/org/coderthoughts/phototools/dupfinder/impl/ui/DuplicateFinderToolPanel.java).
 
 ### Supported Photo and Video formats
+To support additional photo and video formats register an [org.coderthoughts.phototools.api.PhotoMetadataProvider](http://github.com/phototools/phototools/blob/master/phototools.api/src/org/coderthoughts/phototools/api/PhotoMetadataProvider.java).
+
+The service needs to be registered with the service registration property `format` which should list one or more extensions
+(in lowercase) that are supported by this `PhotoMetadataProvider`. For example:
+
+    Dictionary props = new Hashtable();
+    props.put("format", new String [] {".jpeg", ".jpg"});
+    bundleContext.registerService(PhotoMetadataProvider.class.getName(), new MyJPEGProvider(), props);
+ 
 
 ### Photo Sources
 
