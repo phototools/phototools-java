@@ -11,3 +11,5 @@
 	phototools.dupfinder;version=latest,\
 	phototools.mp4;version=latest
 Bundle-Version: ${master-version}
+JPM-Command: phototools
+Bundle-License: http://opensource.org/licenses/Apache-2.0
