@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="project" default="build">
-    <target name="build">
+    <target name="init">
+        <condition property="bnd.command" value="bnd.cmd" else="bnd">
+            <os family="windows"/>
+        </condition>
+    </target>
+
+    <target name="build" depends="init">
         <copy todir="generated/work">
             <fileset dir="template"/>
         </copy>
@@ -9,11 +15,12 @@
         <copy file="../phototools.core/generated/phototools.core.jar" toDir="generated/work/bundle"/>
         <copy file="../phototools.dupfinder/generated/phototools.dupfinder.jar" toDir="generated/work/bundle"/>
         <copy file="../phototools.mp4/generated/phototools.mp4.jar" toDir="generated/work/bundle"/>
-        <!--
-        <copy file="../phototools.mtp/generated/phototools.mtp.jar" toDir="generated/work/bundle"/>
-        -->
 
         <zip destfile="generated/PhotoTools.zip" basedir="generated/work"/>
+
+        <exec executable="${bnd.command}">
+            <arg line="package -o generated/phototools-product.jar bnd.bnd"/>
+        </exec>
     </target>
 
     <target name="clean">

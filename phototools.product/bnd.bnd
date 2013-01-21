@@ -10,3 +10,4 @@
 	phototools.core;version=latest,\
 	phototools.dupfinder;version=latest,\
 	phototools.mp4;version=latest
+Bundle-Version: ${master-version}
