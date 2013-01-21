@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="project" default="build">
-    <target name="init">
+<project name="project" default="build.product">
+    <import file="../cnf/build.xml"/>
+    
+    <target name="build.init">
         <condition property="bnd.command" value="bnd.cmd" else="bnd">
             <os family="windows"/>
         </condition>
     </target>
 
-    <target name="build" depends="init">
+    <!-- Builds a zip file containing the product including launcher scripts.
+         -->
+    <target name="build.product.zip">
         <copy todir="generated/work">
             <fileset dir="template"/>
         </copy>
@@ -17,17 +21,15 @@
         <copy file="../phototools.mp4/generated/phototools.mp4.jar" toDir="generated/work/bundle"/>
 
         <zip destfile="generated/PhotoTools.zip" basedir="generated/work"/>
+    </target>
 
+    <!-- An alternative way to run the project. An executable jar file that contains an embedded OSGi Framework.
+         -->
+    <target name="build.executable.jar" depends="build.init">
         <exec executable="${bnd.command}">
-            <arg line="package -o generated/phototools-product.jar bnd.bnd"/>
+            <arg line="package -o generated/phototools-executable.jar bnd.bnd"/>
         </exec>
     </target>
 
-    <target name="clean">
-        <delete includeEmptyDirs="true" failonerror="false">
-            <fileset dir="generated"/>
-        </delete>
-    </target>
-    
-    <target name="junit"/>
+    <target name="build.product" depends="build.product.zip, build.executable.jar"/>
 </project>
