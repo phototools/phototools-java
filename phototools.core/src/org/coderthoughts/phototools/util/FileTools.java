@@ -14,6 +14,7 @@ package org.coderthoughts.phototools.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +22,14 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// This class can be hugely simplified when we're using Java 7
 public class FileTools {
+    private static final Pattern LS_PATTERN1 = Pattern.compile(".*(\\w\\w\\w)[ ]+(\\d+)[ ]+(\\d\\d)[:](\\d\\d)[:](\\d\\d)[ ]+(\\d\\d\\d\\d).*");
+    private static final Pattern LS_PATTERN2 = Pattern.compile(".+(\\d\\d\\d\\d)[-](\\d\\d)[-](\\d\\d)[ ](\\d\\d)[:](\\d\\d)[:](\\d\\d)[.].+");
+
+    // There are 2 unix ls command lines at least one of the mac and another on fedora. We'll just try to figure out which one works best.
+    private static volatile boolean preferUnixMethod1 = true;
+
     /*
      * Return the date the content of the file was modified last. On Windows this is
      * simply File.lastModified() but on unix that API returns when the file was last
@@ -42,40 +50,124 @@ public class FileTools {
     }
 
     private static Date getFileModificationDateUnix(File f) {
-        try {
-            String[] cmdarray = new String[] {
-                    "sh", "-c", "LANG=C TZ=UTC ls -lTU \"" + f.getAbsolutePath() + "\""
-            };
-            // System.out.println("Executing process: " + Arrays.toString(cmdarray));
-            Process process = Runtime.getRuntime().exec(cmdarray);
-            process.waitFor();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            try {
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    if (line.endsWith(" " + f.getAbsolutePath())) {
-                        // this is the file
-                        Pattern p = Pattern.compile(".*(\\w\\w\\w)[ ]+(\\d+)[ ]+(\\d\\d)[:](\\d\\d)[:](\\d\\d)[ ]+(\\d\\d\\d\\d).*");
-                        Matcher m = p.matcher(line);
+        if (preferUnixMethod1)
+            return getFileModificationDateUnix12(f);
+        else
+            return getFileModificationDateUnix21(f);
+    }
 
-                        if (m.matches()) {
-                            int year = Integer.parseInt(m.group(6));
-                            int month = getUnixMonth(m.group(1));
-                            int day = Integer.parseInt(m.group(2));
-                            int hour = Integer.parseInt(m.group(3));
-                            int minute = Integer.parseInt(m.group(4));
-                            int second = Integer.parseInt(m.group(5));
-                            Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-                            c.set(year, month, day, hour, minute, second);
-                            return c.getTime();
-                        }
-                    }
-                }
-            } finally {
-                reader.close();
+    private static Date getFileModificationDateUnix12(File f) {
+        Date d = null;
+        try {
+            d = getFileModificationDateUnix1(f);
+            if (d != null) {
+                preferUnixMethod1 = true;
+                return d;
+            }
+        } catch (Exception e) {
+            // try again
+        }
+
+        try {
+            d = getFileModificationDateUnix2(f);
+            if (d != null) {
+                preferUnixMethod1 = false;
+                return d;
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Date getFileModificationDateUnix21(File f) {
+        Date d = null;
+        try {
+            d = getFileModificationDateUnix2(f);
+            if (d != null) {
+                preferUnixMethod1 = false;
+                return d;
+            }
+        } catch (Exception e) {
+            // try again
+        }
+
+        if (d == null) {
+            try {
+                d = getFileModificationDateUnix1(f);
+                if (d != null) {
+                    preferUnixMethod1 = true;
+                    return d;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private static Date getFileModificationDateUnix1(File file) throws IOException, InterruptedException {
+        String[] cmdarray = new String[] {
+                "sh", "-c", "LANG=C TZ=UTC ls -lTU \"" + file.getAbsolutePath() + "\""
+        };
+        Process process = Runtime.getRuntime().exec(cmdarray);
+        process.waitFor();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        try {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.endsWith(" " + file.getAbsolutePath())) {
+                    // this is the file
+                    Matcher m = LS_PATTERN1.matcher(line);
+
+                    if (m.matches()) {
+                        int year = Integer.parseInt(m.group(6));
+                        int month = getUnixMonth(m.group(1));
+                        int day = Integer.parseInt(m.group(2));
+                        int hour = Integer.parseInt(m.group(3));
+                        int minute = Integer.parseInt(m.group(4));
+                        int second = Integer.parseInt(m.group(5));
+                        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                        c.set(year, month, day, hour, minute, second);
+                        return c.getTime();
+                    }
+                }
+            }
+        } finally {
+            reader.close();
+        }
+        return null;
+    }
+
+    private static Date getFileModificationDateUnix2(File file) throws IOException, InterruptedException {
+        String[] cmdarray = new String[] {
+                "sh", "-c", "LANG=C TZ=UTC ls -l --time=ctime --time-style=full-iso \"" + file.getAbsolutePath() + "\""
+        };
+        Process process = Runtime.getRuntime().exec(cmdarray);
+        process.waitFor();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        try {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.endsWith(" " + file.getAbsolutePath())) {
+                    // this is the file
+                    Matcher m = LS_PATTERN2.matcher(line);
+
+                    if (m.matches()) {
+                        int year = Integer.parseInt(m.group(1));
+                        int month = Integer.parseInt(m.group(2)) - 1;
+                        int day = Integer.parseInt(m.group(3));
+                        int hour = Integer.parseInt(m.group(4));
+                        int minute = Integer.parseInt(m.group(5));
+                        int second = Integer.parseInt(m.group(6));
+                        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                        c.set(year, month, day, hour, minute, second);
+                        return c.getTime();
+                    }
+                }
+            }
+        } finally {
+            reader.close();
         }
         return null;
     }
