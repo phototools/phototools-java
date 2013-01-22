@@ -1,7 +1,7 @@
 # Master Version Settings
 #base-version: 0.4.0
 #master-version: ${base-version}-${tstamp;yyyyMMdd-HHmm}-${Git-Descriptor}
-master-version: 0.5.0.${tstamp;yyyyMMdd-HHmm}
+master-version: 0.5.3.${tstamp;yyyyMMdd-HHmm}
 
 ## Default settings are in ext/*.bnd and they will be overridden by anything
 ## you specify in this file.
